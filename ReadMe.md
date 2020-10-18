@@ -75,7 +75,7 @@ Key
 - You can continue to use Linq as long as you don’t use the encrypted columns. Not sure if this is a pro ;-D
 
 ### Cons
-- Have to use [ADO.NET](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/) to handle encryption / decryption. No Linq2Sql yet.
+- Have to use [ADO.NET](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/) to handle encryption / decryption. No Linq2Sql that I'm aware of yet.
 - Code First Migrations cannot modify already encrypted columns however, I didn’t try executing TSQL in MigrationBuilder.
 - Whilst I don’t have a lot of experience with reusable patterns for ADO.NET, I believe there is a reduction in reusable code.
 - More boiler plate code needs to be written as opposed to database operations with Entity Framework and Linq.
