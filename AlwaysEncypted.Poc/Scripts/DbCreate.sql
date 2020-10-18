@@ -1,0 +1,7 @@
+﻿GO
+IF DB_ID(N'Clinic') IS NOT NULL
+	DROP DATABASE Clinic;
+GO
+
+CREATE DATABASE Clinic
+COLLATE SQL_Latin1_General_CP1_CI_AS;
