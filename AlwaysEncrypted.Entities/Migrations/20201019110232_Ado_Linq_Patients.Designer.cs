@@ -4,14 +4,16 @@ using AlwaysEncrypted.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlwaysEncrypted.Entities.Migrations
 {
     [DbContext(typeof(AlwaysEncryptedDbContext))]
-    partial class AlwaysEncryptedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201019110232_Ado_Linq_Patients")]
+    partial class Ado_Linq_Patients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -7,7 +7,8 @@ namespace AlwaysEncrypted.Entities
         public AlwaysEncryptedDbContext() { }
         public AlwaysEncryptedDbContext(DbContextOptions<AlwaysEncryptedDbContext> options) : base(options) { }
 
-        public DbSet<Patient> Patients { get; set; }
+        public DbSet<AdoPatient> AdoPatients { get; set; }
+        public DbSet<LinqPatient> LinqPatients { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,16 +20,21 @@ namespace AlwaysEncrypted.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Patient>()
-                .HasIndex(e => e.Ssn);
-            modelBuilder.Entity<Patient>()
+            modelBuilder.Entity<AdoPatient>()
                 .HasIndex(e => e.FirstName);
-            modelBuilder.Entity<Patient>()
+            modelBuilder.Entity<AdoPatient>()
                 .HasIndex(e => e.LastName);
+            modelBuilder.Entity<AdoPatient>()
+                .HasIndex(e => e.Ssn);
 
-            modelBuilder.Entity<Patient>()
+            modelBuilder.Entity<AdoPatient>()
                 .HasIndex(e => e.Ssn)
                 .IsUnique();
+
+            modelBuilder.Entity<LinqPatient>()
+                .HasIndex(e => e.FirstName);
+            modelBuilder.Entity<LinqPatient>()
+                .HasIndex(e => e.LastName);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AlwaysEncrypted.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -24,8 +26,20 @@ namespace AlwaysEncypted.Poc
               .ConfigureServices((hostContext, services) =>
               {
                   services.AddLogging(configure => configure.AddConsole());
+                  services.AddTransient<AdoStub>();
 
-                  services.AddTransient<Stub>();
+                  services.AddDbContext<AlwaysEncryptedDbContext>(options =>
+                  {
+                      options.UseSqlServer(
+                        hostContext.Configuration["ConnectionStrings:LinqSqlConnectionString"],
+                        optionsBuilder =>
+                        {
+                            optionsBuilder.ExecutionStrategy(
+                                context => new SqlServerRetryingExecutionStrategy(context, 10, TimeSpan.FromMilliseconds(200), null));
+                        });
+                  });
+
+                  services.AddTransient<LinqStub>();
               });
 
             var host = builder.Build();
@@ -35,9 +49,10 @@ namespace AlwaysEncypted.Poc
                 var services = serviceScope.ServiceProvider;
                 try
                 {
-                    var stub = services.GetRequiredService<Stub>();
-                    
-                    await stub.Run();
+                    var adoStub = services.GetRequiredService<AdoStub>();
+                    await adoStub.Run();
+                    var linqStub = services.GetRequiredService<LinqStub>();
+                    await linqStub.Run();
                 }
                 catch (Exception ex)
                 {
